@@ -1,83 +1,96 @@
 // API Configuration
 const API_URL = 'https://dvkvmjdefaytycdbsntd.supabase.co/rest/v1';
 const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2a3ZtamRlZmF5dHljZGJzbnRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MjE1MjAsImV4cCI6MjA1OTI5NzUyMH0.wYHbfTAJyIp2CLfU4LcIJfJAMrVq41zUK6kw5GZ01ts';
-const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+
 // API Service
 const api = {
   // Headers for API requests
   headers: {
     'apikey': API_KEY,
-    'Content-Type': 'application/json; charset=UTF-8',
+    'Content-Type': 'application/json',
     'Prefer': 'return=representation',
     'Authorization': `Bearer ${API_KEY}`,
   },
 
-  // Fetch all students
+  // Fetch all asignatures
   async getAsignatures() {
     try {
-      const response = await fetch(`${API_URL}/asignatura`, {
+      const response = await fetch(`${API_URL}/asignatura?select=*`, {
         method: 'GET',
-        headers: api.headers
+        headers: this.headers
       });
       
       if (!response.ok) {
-        throw new Error('Failed to fetch students');
+        throw new Error(`Failed to fetch asignatures: ${response.status}`);
       }
       
       return await response.json();
     } catch (error) {
-      console.error('Error fetching students:', error);
+      console.error('Error fetching asignatures:', error);
       throw error;
     }
   },
 
-  async addAsignature(code, name, description) {
+  async addAsignature(codigo, nombre, descripcion, creditos) {
     try {
-
       const response = await fetch(`${API_URL}/asignatura`, {
         method: 'POST',
-        headers: api.headers,
+        headers: this.headers,
         body: JSON.stringify({
-          code: code,
-          name: name,
-          description: description,
+          codigo: codigo,
+          nombre: nombre,
+          descripcion: descripcion,
+          creditos: creditos
         }),
       });
 
-      return response.json();
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error details:', errorData);
+        throw new Error(`Failed to add asignature: ${response.status}`);
+      }
+
+      return await response.json();
     } catch (error) {
-      console.error(error);
+      console.error('Error adding asignature:', error);
       throw error;
     }
   },
   
-  async updateAsign(befCode, name, description) {
-    
+  async updateAsign(codigo, nombre, descripcion, creditos) {
     try {
-      const response = await fetch(`${API_URL}/asignatura?codigo=eq.${befCode}`, {
+      const response = await fetch(`${API_URL}/asignatura?codigo=eq.${codigo}`, {
         method: 'PATCH',
-        headers: api.headers,
+        headers: this.headers,
         body: JSON.stringify({
-          name: name,
-          description: description,
+          nombre: nombre,
+          descripcion: descripcion,
+          creditos: creditos
         }),
       });
-      return response.json();
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error details:', errorData);
+        throw new Error(`Failed to update asignature: ${response.status}`);
+      }
+
+      return await response.json();
     } catch (error) {
-      console.error(error);
+      console.error('Error updating asignature:', error);
       throw error;
     }
   },
 
-  async getAsignStudents(code) {
+  async getAsignStudents(codigo_asignatura) {
     try {
-      const response = await fetch(`${API_URL}/matricula?codigo_asignatura=eq.${code}`, {
+      const response = await fetch(`${API_URL}/matricula?codigo_asignatura=eq.${codigo_asignatura}&select=*`, {
         method: 'GET',
-        headers: api.headers
+        headers: this.headers
       });
       
       if (!response.ok) {
-        throw new Error('Failed to fetch students');
+        throw new Error(`Failed to fetch students: ${response.status}`);
       }
       
       return await response.json();
@@ -87,15 +100,33 @@ const api = {
     }
   },
 
-  async getStudents(code) {
+  async getStudent(codigo) {
     try {
-      const response = await fetch(`${API_URL}/alumno?codigo=eq.${code}`, {
+      const response = await fetch(`${API_URL}/alumno?codigo=eq.${codigo}`, {
         method: 'GET',
-        headers: api.headers
+        headers: this.headers
       });
       
       if (!response.ok) {
-        throw new Error('Failed to fetch students');
+        throw new Error(`Failed to fetch student: ${response.status}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching student:', error);
+      throw error;
+    }
+  },
+
+  async getAllStudents() {
+    try {
+      const response = await fetch(`${API_URL}/alumno?select=*`, {
+        method: 'GET',
+        headers: this.headers
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch students: ${response.status}`);
       }
       
       return await response.json();
@@ -104,4 +135,28 @@ const api = {
       throw error;
     }
   },
-}
+  
+  async addStudentToAsign(codigo_asignatura, codigo_alumno) {
+    try {
+      const response = await fetch(`${API_URL}/matricula`, {
+        method: 'POST',
+        headers: this.headers,
+        body: JSON.stringify({
+          codigo_asignatura: codigo_asignatura,
+          codigo_alumno: codigo_alumno
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error details:', errorData);
+        throw new Error(`Failed to add student to asignature: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error adding student to asignature:', error);
+      throw error;
+    }
+  }
+};
