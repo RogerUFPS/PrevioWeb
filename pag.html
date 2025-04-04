@@ -24,7 +24,7 @@
         <div class="asignature-card-buttons">
 
           <button onclick="fadeSwap('asignatures', 'editAsign'); getAsign(this)" class="asig-btn">Editar</button>
-          <button onclick="fadeSwap('asignatures', 'viewAsign'); putStudents(this); asignInfo(this)" class="asign-btn">Ver</button>
+          <button onclick="fadeSwap('asignatures', 'viewAsign'); putStudents(this);" class="asign-btn">Ver</button>
 
         </div>
 
@@ -140,7 +140,7 @@
       <input type="text" name="eAsign">
   
       <p>Creditos</p>
-      <input type="number">
+      <input type="number" name="eAsign">
 
       <p>Nombre</p>
       <input type="text" name="eAsign">
@@ -176,7 +176,7 @@
         <div class="info-students">
           <h2>Estudiantes matriculados</h2>
           <p>Total estudiantes</p>
-          <button onclick="showOverlay()">Agregar estudiante</button>
+          <button onclick="listStudents();showOverlay();">Agregar estudiante</button>
         </div>
 
         <div class="student-list" id="studentList">
@@ -199,6 +199,7 @@
         <select name="estudiantes" id="listStudents">
         </select>
 
+        <button onclick="addStudent(); hideOverlay()">Agregar</button>
         <button onclick="hideOverlay()">Cerrar</button>
       </div>
     </div>

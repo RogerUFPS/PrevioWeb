@@ -52,7 +52,7 @@ const api = {
   },
   
   async updateAsign(befCode, name, description) {
-    
+
     try {
       const response = await fetch(`${API_URL}/asignatura?codigo=eq.${befCode}`, {
         method: 'PATCH',
@@ -104,4 +104,40 @@ const api = {
       throw error;
     }
   },
+
+  async getAllStudents() {
+    try {
+      const response = await fetch(`${API_URL}/alumno`, {
+        method: 'GET',
+        headers: api.headers
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch students');
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching students:', error);
+      throw error;
+    }
+  },
+  
+  async addStudentToAsign(code, studentC, name) {
+    try {
+      const response = await fetch(`${API_URL}/matricula?codigo_asignatura=eq.${code}`, {
+        method: 'POST',
+        headers: api.headers,
+        body: JSON.stringify({
+          code: studentC,
+          name: name,
+        }),
+      });
+
+      return response.json();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }

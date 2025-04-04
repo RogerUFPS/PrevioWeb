@@ -91,13 +91,10 @@ function getAsign(e) {
 }
 
 function update() {
-
     let inputs = document.getElementsByName("eAsign");
-    api.updateAsign(asignatures[actIndex].codigo, inputs[1].value, inputs[2].value);
+    api.updateAsign(asignatures[actIndex].codigo, inputs[2].value, inputs[3].value);
     
-    // setTimeout(() => {
-    //     location.reload();
-    // }, 500);
+  
 
 }
 
@@ -131,4 +128,27 @@ async function putStudents(e) {
     document.getElementById('vCredits').textContent = asignatures[actIndex].creditos;
     document.getElementById('vDescr').textContent = asignatures[actIndex].descripcion;
     document.getElementById('totalEst').textContent = totStd + "/" + 3;
+}
+
+async function listStudents() {
+    let list = document.getElementById("listStudents");
+
+    let students = await api.getAllStudents();
+
+    students.forEach(st => {
+        let option = document.createElement('option');
+        option.value = st.codigo;
+        option.textContent = st.nombre + " " + st.codigo;
+        list.appendChild(option);
+    });
+}
+
+async function addStudent() {
+    let list = document.getElementById("listStudents");
+    let act = await api.getStudents(asignatures[actIndex]); 
+
+    if(totStd < 3) {
+
+        api.addStudentToAsign(asignatures[actIndex].codigo, act.codigo, act.nombre);
+    } else alert("Va a exceder el tamaño max del curso");
 }
