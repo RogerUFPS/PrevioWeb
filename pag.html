@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <template>
+  <template id="templateAsignCards">
 
     <div class="asignature-card"> 
       
@@ -18,13 +18,13 @@
       <div class="asignature-card-content">
 
         <p class="creditos">CREDITOS</p>
-        <p class="Description">Content</p>
+        <p class="description">Content</p>
 
 
         <div class="asignature-card-buttons">
 
-          <button class="asig-btn">Editar</button>
-          <button class="asign-btn">Ver</button>
+          <button onclick="fadeSwap('asignatures', 'editAsign'); getAsign(this)" class="asig-btn">Editar</button>
+          <button onclick="fadeSwap('asignatures', 'viewAsign'); putStudents(this); asignInfo(this)" class="asign-btn">Ver</button>
 
         </div>
 
@@ -34,8 +34,8 @@
 
   </template>
 
-  <template>
-
+  <template id="templateStudentCards">
+ 
     <div class="student-card"> 
 
       <div class="student-info">
@@ -114,13 +114,16 @@
       <p>Codigo</p>
       <input type="number" name="nAsign">
 
+      <p>Creditos</p>
+      <input type="number">
+
       <p>Nombre</p>
       <input type="text" name="nAsign">
 
       <p>Descripcion</p>
       <input type="text" name="nAsign">
 
-      <button onclick="fadeSwap('newAsign', 'asignatures')">Guardar</button>
+      <button onclick="fadeSwap('newAsign', 'asignatures'); addAsign()">Guardar</button>
 
     </div>
 
@@ -133,20 +136,19 @@
 
     <div class="form-content">
 
-      <div class="form-content">
+      <p>Codigo</p>
+      <input type="text" name="eAsign">
+  
+      <p>Creditos</p>
+      <input type="number">
 
-        <p>Codigo</p>
-        <input type="number" name="eAsign">
+      <p>Nombre</p>
+      <input type="text" name="eAsign">
   
-        <p>Nombre</p>
-        <input type="text" name="eAsign">
-  
-        <p>Descripcion</p>
-        <input type="text" name="eAsign">
-  
-        <button onclick="fadeSwap('editAsign', 'asignatures')">Guardar</button>
-  
-      </div>
+      <p>Descripcion</p>
+      <input type="text" name="eAsign">
+          
+      <button onclick="fadeSwap('editAsign', 'asignatures'); update();">Guardar</button>
 
     </div>
   </div>
@@ -162,6 +164,8 @@
         <h2 id="vAsign">Materia</h2>
         <p id="vCredits">Creditos</p>
         <p id="vDescr">Descripcion</p>
+        <p id="totalEst"></p>
+
 
         <button onclick="fadeSwap('viewAsign', 'editAsign')">Editar informacion</button>
 
@@ -175,7 +179,7 @@
           <button onclick="showOverlay()">Agregar estudiante</button>
         </div>
 
-        <div class="student-list">
+        <div class="student-list" id="studentList">
 
   
 
@@ -201,13 +205,9 @@
 
   <!-- Scripts -->
   <script src="./js/fadding.js"></script>
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const seccion = params.get('nombre');
-   
-    document.getElementById("nombre").value = seccion;
-
-  </script>
+  <script src="./js/api.js"></script>
+  <script src="./js/app.js"></script>
+  
 
 </body>
 </html>
