@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plantilla Web</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <template>
+
+    <div class="asignature-card"> 
+      
+      <p class="name">NOMBRE AS</p>
+      <p class="id">ID</p>
+
+      <div class="asignature-card-content">
+
+        <p class="creditos">CREDITOS</p>
+        <p class="Description">Content</p>
+
+
+        <div class="asignature-card-buttons">
+
+          <button class="asig-btn">Editar</button>
+          <button class="asign-btn">Ver</button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </template>
+
+  <template>
+
+    <div class="student-card"> 
+
+      <div class="student-info">
+
+        <p class="nameE">NOMBRE AS</p>
+        <p class="idE">ID</p>
+
+      </div>
+
+      <button>Ver detalles</button>
+      <button>Eliminar estudiante</button>
+
+    </div>
+
+  </template>
+
+  <!-- Sección principal -->
+  <div id="main" class="section active">
+
+    <section class="main-page">
+
+      <h2>Sistema de gestion de matriculas</h2>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque, ipsam pariatur modi impedit quaerat culpa maxime amet alias ab non blanditiis tenetur incidunt placeat saepe nisi sequi velit temporibus! Molestias.</p>
+
+
+      <div>
+
+        <div class="card-student">
+
+
+          <p>Estuadintes</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error omnis amet repellendus laboriosam quasi obcaecati est optio deserunt iste aliquam tenetur eligendi sed, enim repellat, hic ea in tempora rem!</p>
+
+          <button>Ir a Estudiantes</button>
+
+        </div>
+
+        <div class="card-student"> 
+
+          <p>Asignaturas</p>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero doloribus incidunt maxime, quibusdam possimus commodi accusamus aperiam excepturi! Facere eum id corporis maxime accusantium dolore doloremque consequuntur maiores eligendi reiciendis!</p>
+
+          <button onclick="fadeSwap('main', 'asignatures')">Ir a Asignaturas</button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <div id="asignatures" class="section">
+
+    <div class="asignature-header">
+
+      <button onclick="fadeSwap('asignatures', 'main')">Volver a principal</button>
+      <h2>Asignaturas</h2>
+      <button onclick="fadeSwap('asignatures', 'newAsign')">Nueva asignatura</button>
+
+      </div>
+
+    <div class="asignatures-card-section" id="asignCards">
+
+
+    </div>
+
+  </div>
+
+  <div id="newAsign" class="section">
+
+    <button onclick="fadeSwap('newAsign', 'asignatures')">Volver a asignaturas</button>
+    <h2>Nueva asignatura</h2>
+
+    <div class="form-content">
+
+      <p>Codigo</p>
+      <input type="number" name="nAsign">
+
+      <p>Nombre</p>
+      <input type="text" name="nAsign">
+
+      <p>Descripcion</p>
+      <input type="text" name="nAsign">
+
+      <button onclick="fadeSwap('newAsign', 'asignatures')">Guardar</button>
+
+    </div>
+
+  </div>
+
+  <div id="editAsign" class="section">
+
+    <button onclick="fadeSwap('editAsign', 'asignatures')">Volver a asignaturas</button>
+    <h2>Editar asignaturas</h2>
+
+    <div class="form-content">
+
+      <div class="form-content">
+
+        <p>Codigo</p>
+        <input type="number" name="eAsign">
+  
+        <p>Nombre</p>
+        <input type="text" name="eAsign">
+  
+        <p>Descripcion</p>
+        <input type="text" name="eAsign">
+  
+        <button onclick="fadeSwap('editAsign', 'asignatures')">Guardar</button>
+  
+      </div>
+
+    </div>
+  </div>
+
+
+  <div id="viewAsign" class="section">
+
+    <button onclick="fadeSwap('viewAsign', 'asignatures')">Volever a asignaturas</button>
+
+    <div class="viewasign-section">
+      <div class="viewasign-info">
+
+        <h2 id="vAsign">Materia</h2>
+        <p id="vCredits">Creditos</p>
+        <p id="vDescr">Descripcion</p>
+
+        <button onclick="fadeSwap('viewAsign', 'editAsign')">Editar informacion</button>
+
+      </div>
+
+      <div class="viewasign-students">
+
+        <div class="info-students">
+          <h2>Estudiantes matriculados</h2>
+          <p>Total estudiantes</p>
+          <button onclick="showOverlay()">Agregar estudiante</button>
+        </div>
+
+        <div class="student-list">
+
+  
+
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+    <div id="overlay" class="overlay">
+      <div class="overlay-content">
+        <h2>Agregar estudiante</h2>
+        
+        <select name="estudiantes" id="listStudents">
+        </select>
+
+        <button onclick="hideOverlay()">Cerrar</button>
+      </div>
+    </div>
+
+  <!-- Scripts -->
+  <script src="./js/fadding.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const seccion = params.get('nombre');
+   
+    document.getElementById("nombre").value = seccion;
+
+  </script>
+
+</body>
+</html>
