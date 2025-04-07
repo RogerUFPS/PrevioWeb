@@ -107,9 +107,12 @@ async function update() {
     }
 }
 
+let act;
+
 // Mostrar estudiantes de una asignatura
 async function putStudents(e) {
     try {
+        act = e;
         const studentList = document.getElementById('studentList');
         const template = document.getElementById('templateStudentCards');
         
@@ -154,6 +157,10 @@ async function listStudents() {
     try {
         const list = document.getElementById("listStudents");
         list.innerHTML = ''; // Limpiar lista primero
+        let o = document.createElement('option');
+        o.textContent="";
+        o.value="-1";
+        list.appendChild(o);
 
         const students = await api.getAllStudents();
 
@@ -169,12 +176,12 @@ async function listStudents() {
 }
 
 // Añadir estudiante a una asignatura
-async function addStudent() {
+async function addStudent(e) {
     try {
         const list = document.getElementById("listStudents");
         const selectedStudentCode = list.value;
 
-        if (!selectedStudentCode) {
+        if (selectedStudentCode == -1) {
             alert('Por favor seleccione un estudiante');
             return;
         }
@@ -194,7 +201,7 @@ async function addStudent() {
             );
             
             // Actualizar la lista de estudiantes
-            await putStudents();
+            await putStudents(act);
             hideOverlay();
         } else {
             alert('Estudiante no encontrado');
